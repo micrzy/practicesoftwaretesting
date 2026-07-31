@@ -7,7 +7,7 @@ test.describe("Test API Mock", () => {
     
   }) => {
  
-    await poManager.homePage.selectProductRandomly();
+    await poManager.homePage.selectFirstProduct();
 
     await page.locator('[data-test="increase-quantity"]').click();
     await page.locator('[data-test="add-to-cart"]').click();
