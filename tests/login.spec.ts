@@ -16,9 +16,9 @@ test.describe("Login tests", () => {
       process.env.TEST_EMAIL!,
       process.env.TEST_PASSWORD!,
     );
-    await expect(page).toHaveURL(/\/admin\/dashboard/);
+    await expect(page).toHaveURL(/\/account/);
     await expect(page.locator('[data-test="nav-menu"]')).toContainText(
-      "John Doe",
+      "Karina Sue",
     );
   });
 });

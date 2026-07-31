@@ -6,8 +6,13 @@ export class HomePage {
 
   async selectFirstProduct() {
     await this.page.goto("/");
-    const products = this.page.locator(".container .card");
-    await products.first().click();
-    await this.page.waitForURL(/\/product/);
+    const product = this.page.locator(".container .card").first();
+    await product.waitFor({ state: "visible" });
+    await product.click();
+    //await this.page.waitForURL(/\/product/);
+    await Promise.all([
+      this.page.waitForURL(/\/product/, { waitUntil: "domcontentloaded" }),
+      product.click()
+    ]);
   }
 }

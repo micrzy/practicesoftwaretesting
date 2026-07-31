@@ -12,12 +12,11 @@ test.describe("Test API Mock", () => {
     await page.locator('[data-test="increase-quantity"]').click();
     await page.locator('[data-test="add-to-cart"]').click();
     await page.locator('[data-test="nav-cart"]').click();
-
     await page.locator('[data-test="proceed-1"]').click();
 
     await poManager.loginPage.loginViaEmailAndPassword(
-      "admin@practicesoftwaretesting.com",
-      "welcome01",
+      process.env.TEST_EMAIL!,
+      process.env.TEST_PASSWORD!,
     );
 
     await page.locator('[data-test="proceed-2"]').click();
