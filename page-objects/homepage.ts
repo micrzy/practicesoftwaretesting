@@ -9,7 +9,6 @@ export class HomePage {
     const product = this.page.locator(".container .card").first();
     await product.waitFor({ state: "visible" });
     await product.click();
-    //await this.page.waitForURL(/\/product/);
     await Promise.all([
       this.page.waitForURL(/\/product/, { waitUntil: "domcontentloaded" }),
       product.click()
