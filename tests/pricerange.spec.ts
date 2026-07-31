@@ -2,9 +2,11 @@ import { test, expect } from "../page-objects/fixtures";
 
 test.describe("Test Price Range Slide", () => {
   test("slide max price to 30, make sure price for all products presented on page are lower or equal than 30 ", async ({
-    filterSlideBarComponent,
+    poManager,
     page,
   }) => {
+    await poManager.filterSlideBar.navigate()
+
     const responsePromise = page.waitForResponse(async(response)=>{
       const isTargetUrl =
         response.url().includes("/products") &&
@@ -24,7 +26,7 @@ test.describe("Test Price Range Slide", () => {
         return false;
       }
     });
-    await filterSlideBarComponent.setMaxPrice(30);
+    await poManager.filterSlideBar.setMaxPrice(30);
     const response = await responsePromise
     expect(response.status()).toBe(200)
 

@@ -2,25 +2,21 @@ import { test, expect } from "../page-objects/fixtures";
 
 test.describe("Test API Mock", () => {
   test("before checkout, intercept API and mock 500 Internal Server Error", async ({
-    loginPage,
+    poManager,
     page,
+    
   }) => {
-    await page.goto("/");
-
-    const firstProduct = page.locator(".card").first();
-    await firstProduct.waitFor({ state: "visible" });
-    await firstProduct.click();
-    await page.waitForURL(/\/product/);
+ 
+    await poManager.homePage.selectFirstProduct();
 
     await page.locator('[data-test="increase-quantity"]').click();
     await page.locator('[data-test="add-to-cart"]').click();
     await page.locator('[data-test="nav-cart"]').click();
-
     await page.locator('[data-test="proceed-1"]').click();
 
-    await loginPage.loginViaEmailAndPassword(
-      "admin@practicesoftwaretesting.com",
-      "welcome01"
+    await poManager.loginPage.loginViaEmailAndPassword(
+      process.env.TEST_EMAIL!,
+      process.env.TEST_PASSWORD!,
     );
 
     await page.locator('[data-test="proceed-2"]').click();
@@ -31,22 +27,22 @@ test.describe("Test API Mock", () => {
     await page.locator('[data-test="proceed-3"]').click();
 
     // Step 4: Setup API Mock 500
-    let isMockTrigger = false
-    await page.route("**/payment/check",async(route)=>{
-      isMockTrigger = true
+    let isMockTrigger = false;
+    await page.route("**/payment/check", async (route) => {
+      isMockTrigger = true;
       await route.fulfill({
-         status: 500,
-         contentType: "application/json",
-         body: JSON.stringify({message: "Internal Server Error"}),
-      })
-    })
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ message: "Internal Server Error" }),
+      });
+    });
 
-   
-    await page.locator('[data-test="payment-method"]').selectOption({ label: "Cash on Delivery" });
+    await page
+      .locator('[data-test="payment-method"]')
+      .selectOption({ label: "Cash on Delivery" });
     await page.locator('[data-test="finish"]').click();
 
     await expect(page.locator(".alert-danger")).toHaveText("Unknown error");
-    expect(isMockTrigger).toBeTruthy()
-   
+    expect(isMockTrigger).toBeTruthy();
   });
 });

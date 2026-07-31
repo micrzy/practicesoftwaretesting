@@ -1,7 +1,9 @@
 import {test, expect} from "../page-objects/fixtures"     
 
 test.describe("Product Filter",()=>{
-    test("verify filted product via API response interception",async({filterSlideBarComponent,page})=>{
+    test("verify filted product via API response interception",async({poManager,page})=>{
+
+        await poManager.filterSlideBar.navigate()
 
         let latestProducts: any[] = []
 
@@ -18,8 +20,8 @@ test.describe("Product Filter",()=>{
                  }
             }
         })
-        await filterSlideBarComponent.checkOption('Hand Tools')
-        await filterSlideBarComponent.checkOption('ForgeFlex Tools')
+        await poManager.filterSlideBar.checkOption('Hand Tools')
+        await poManager.filterSlideBar.checkOption('ForgeFlex Tools')
 
         await page.waitForTimeout(1500)
         expect(latestProducts.length).toBeGreaterThan(0)

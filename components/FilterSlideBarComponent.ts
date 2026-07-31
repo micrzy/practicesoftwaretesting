@@ -15,6 +15,10 @@ export class FilterSlideBarComponent{
        this.maxSlider = this.page.locator('[aria-label="ngx-slider-max"]');
     }
 
+     async navigate(){
+        this.page.goto('/')
+    }
+
     // --- Brand / Category Checkboxes ---
     async checkOption(filterName:string){
          await this.container.getByRole('checkbox',{name:filterName}).check({force:true})
