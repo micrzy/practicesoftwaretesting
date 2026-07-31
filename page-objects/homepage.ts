@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page,expect } from "@playwright/test";
 
 export class HomePage {
   constructor(readonly page: Page) {}
@@ -6,12 +6,13 @@ export class HomePage {
 
   async selectFirstProduct() {
     await this.page.goto("/");
-    const product = this.page.locator(".container .card").first();
+    const product = this.page.locator('[data-test="product-name"]').first();
     await product.waitFor({ state: "visible" });
-    await product.click();
-    await Promise.all([
-      this.page.waitForURL(/\/product/, { waitUntil: "domcontentloaded" }),
-      product.click()
-    ]);
+    await product.click()
+    await expect(this.page).toHaveURL(/\/product/);
+    // await Promise.all([
+    //   this.page.waitForURL(/\/product/, { waitUntil: "domcontentloaded" }),
+    //   product.click()
+    // ]);
   }
 }
