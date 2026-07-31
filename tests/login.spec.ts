@@ -18,7 +18,7 @@ test.describe("Login tests", () => {
     );
     await expect(page).toHaveURL(/\/account/);
     await expect(page.locator('[data-test="nav-menu"]')).toContainText(
-      "Jack",{ timeout: 15000 }
+      "Jack"
     );
   });
 });
