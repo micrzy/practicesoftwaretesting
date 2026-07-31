@@ -4,7 +4,9 @@ test.describe("Test API Mock", () => {
   test("before checkout, intercept API and mock 500 Internal Server Error", async ({
     poManager,
     page,
+    
   }) => {
+ 
     await poManager.homePage.selectProductRandomly();
 
     await page.locator('[data-test="increase-quantity"]').click();
