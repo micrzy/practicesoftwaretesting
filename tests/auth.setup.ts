@@ -1,31 +1,15 @@
-import { test as setup, expect } from "@playwright/test";
+/// <reference types="node" />
+import { test as setup } from "../page-objects/fixtures";
 
 const authFile = "./.auth/user.json";
 
-setup("authentication", async ({ request, page }) => {
-  const response = await request.post(
-    "https://api.practicesoftwaretesting.com/users/login",
+setup("authentication", async ({ page,poManager  }) => {
+  const email = process.env.TEST_EMAIL!;
+  const password = process.env.TEST_PASSWORD!;
+  await poManager.loginPage.navigate()
+  await poManager.loginPage.loginViaEmailAndPassword(email, password);
 
-    {
-      data: {
-        email: process.env.TEST_EMAIL!,
-
-        password: process.env.TEST_PASSWORD!,
-      },
-    },
-  );
-
-  expect(response.status()).toBe(200);
-
-  const responseBody = await response.json();
-
-  const accessToken = responseBody.access_token;
-
-  await page.goto("/");
-
-  await page.evaluate((token) => {
-    window.localStorage.setItem("auth-token", token);
-  }, accessToken);
+  await page.waitForURL("**/admin/dashboard");
 
   await page.context().storageState({ path: authFile });
 });
