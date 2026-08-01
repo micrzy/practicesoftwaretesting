@@ -20,10 +20,7 @@ test.describe("Login tests", () => {
     );
 
     await expect(page).toHaveURL(/\/account/);
-    console.log("number 2" + " " + page.url());
     
-    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack", {
-      timeout: 15000,
-    });
+    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack");
   });
 });

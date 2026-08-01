@@ -5,10 +5,6 @@ export class LoginPage {
 
   async navigate() {
     await this.page.goto("/");
-
-    console.log("number 1" + " " + this.page.url());
-
-    await this.page.waitForLoadState("networkidle");
     await this.page.locator('[data-test="nav-sign-in"]').click();
   }
 
