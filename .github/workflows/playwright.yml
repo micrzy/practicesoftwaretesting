@@ -21,7 +21,7 @@ jobs:
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
         TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
       run: |
-        docker run --rm \
+        docker run --rm --network=host\
           -e TEST_EMAIL="${TEST_EMAIL}" \
           -e TEST_PASSWORD="${TEST_PASSWORD}" \
           -v ${{ github.workspace }}/playwright-report:/practiceapp/playwright-report \
