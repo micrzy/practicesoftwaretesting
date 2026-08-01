@@ -9,7 +9,10 @@ test.describe("Test API Mock", () => {
  
     await poManager.homePage.selectFirstProduct();
 
-    await page.locator('[data-test="increase-quantity"]').click();
+    //await page.locator('[data-test="increase-quantity"]').click();
+    const increaseBtn = page.locator('[data-test="increase-quantity"]');
+    await expect(increaseBtn).toBeEnabled({ timeout: 10000 });
+    await increaseBtn.click();
     await page.locator('[data-test="add-to-cart"]').click();
     await page.locator('[data-test="nav-cart"]').click();
     await page.locator('[data-test="proceed-1"]').click();
