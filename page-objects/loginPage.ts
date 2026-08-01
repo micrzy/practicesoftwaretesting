@@ -8,12 +8,8 @@ export class LoginPage {
 
     console.log("number 1" + " " + this.page.url());
 
-    const signInBtn = this.page.locator('[data-test="nav-sign-in"]');
-    if (await signInBtn.isVisible()) {
-      await signInBtn.click();
-    }
-
-    //await this.page.locator('[data-test="nav-sign-in"]').click()
+    await this.page.waitForLoadState("networkidle");
+    await this.page.locator('[data-test="nav-sign-in"]').click();
   }
 
   async loginViaEmailAndPassword(email: string, password: string) {
