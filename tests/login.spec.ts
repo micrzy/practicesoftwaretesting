@@ -17,6 +17,8 @@ test.describe("Login tests", () => {
       process.env.TEST_PASSWORD!,
     );
     await expect(page).toHaveURL(/\/account/);
-    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack");
+    await page.locator('[data-test="nav-menu"]').waitFor({ state: 'visible' });
+    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack", { timeout: 10000 }); 
+    
   });
 });
