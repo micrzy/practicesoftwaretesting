@@ -10,9 +10,5 @@ export class HomePage {
     await product.waitFor({ state: "visible" });
     await product.click()
     await expect(this.page).toHaveURL(/\/product/);
-    // await Promise.all([
-    //   this.page.waitForURL(/\/product/, { waitUntil: "domcontentloaded" }),
-    //   product.click()
-    // ]);
   }
 }
