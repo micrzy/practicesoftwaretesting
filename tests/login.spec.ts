@@ -4,6 +4,7 @@ test.describe("Login tests", () => {
   test.beforeEach(async ({ poManager }) => {
     await poManager.loginPage.navigate();
   });
+  
   test("Login failed", async ({ poManager }) => {
     await poManager.loginPage.loginViaEmailAndPassword(
       "wrong@user.com",

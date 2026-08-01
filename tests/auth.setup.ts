@@ -9,7 +9,7 @@ setup("authentication", async ({ page,poManager  }) => {
   await poManager.loginPage.navigate()
   await poManager.loginPage.loginViaEmailAndPassword(email, password);
 
-  await page.waitForURL("**/admin/dashboard");
+  await page.waitForURL(/\/account/);
 
   await page.context().storageState({ path: authFile });
 });
