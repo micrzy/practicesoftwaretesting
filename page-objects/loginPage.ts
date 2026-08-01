@@ -5,7 +5,7 @@ export class LoginPage{
     constructor(readonly page:Page){}
 
     async navigate(){
-        this.page.goto('/')
+        await this.page.goto('/')
         await this.page.locator('[data-test="nav-sign-in"]').click()
     }
 
