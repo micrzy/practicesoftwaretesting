@@ -12,7 +12,7 @@ export class LoginPage{
     async loginViaEmailAndPassword(email:string,password:string){
         await this.page.locator('[data-test="email"]').fill(email)
         await this.page.locator('[data-test="password"]').fill(password)
-        await this.page.locator('[data-test="login-submit"]').click({force: true})
+        await this.page.locator('[data-test="login-submit"]').click()
     }
 
     get errorAlert(){

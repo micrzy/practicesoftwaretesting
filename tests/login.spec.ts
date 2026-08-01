@@ -19,13 +19,8 @@ test.describe("Login tests", () => {
       process.env.TEST_PASSWORD!,
     );
 
-    console.log("Current URL:", page.url());
-   
-    console.log("Email defined?:", !!process.env.TEST_EMAIL);
-
 
     await expect(page).toHaveURL(/\/account/);
-    await page.locator('[data-test="nav-menu"]').waitFor({ state: "visible" });
     await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack", {
       timeout: 10000,
     });
