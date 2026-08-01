@@ -25,7 +25,7 @@ jobs:
           -e TEST_EMAIL="${TEST_EMAIL}" \
           -e TEST_PASSWORD="${TEST_PASSWORD}" \
           -v ${{ github.workspace }}/playwright-report:/practiceapp/playwright-report \
-          my-practice-app npx playwright test --workers=1
+          my-practice-app npx playwright test
 
     # 3. test report upload
     - uses: actions/upload-artifact@v4

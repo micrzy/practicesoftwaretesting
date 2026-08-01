@@ -20,7 +20,7 @@ test.describe("Login tests", () => {
     );
 
     await expect(page).toHaveURL(/\/account/);
-    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack")
-    });
+    
+    await expect(page.locator('[data-test="nav-menu"]')).toContainText("Jack");
   });
-
+});
