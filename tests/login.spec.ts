@@ -2,20 +2,20 @@ import { test, expect } from "../page-objects/fixtures.ts";
 
 test.describe("Login tests", () => {
   test.beforeEach(async ({ poManager }) => {
-    await poManager.loginPage.navigate();
+    await poManager.authPage.navigate();
   });
   
   test("Login failed", async ({ poManager }) => {
-    await poManager.loginPage.loginViaEmailAndPassword(
+    await poManager.authPage.loginViaEmailAndPassword(
       "wrong@user.com",
       "123456",
     );
-    await expect(poManager.loginPage.errorAlert).toContainText(
+    await expect(poManager.authPage.errorAlert).toContainText(
       "Invalid email or password",
     );
   });
   test("Login successful", async ({ page, poManager }) => {
-    await poManager.loginPage.loginViaEmailAndPassword(
+    await poManager.authPage.loginViaEmailAndPassword(
       process.env.TEST_EMAIL!,
       process.env.TEST_PASSWORD!,
     );

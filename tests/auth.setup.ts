@@ -6,8 +6,8 @@ const authFile = "./.auth/user.json";
 setup("authentication", async ({ page,poManager  }) => {
   const email = process.env.TEST_EMAIL!;
   const password = process.env.TEST_PASSWORD!;
-  await poManager.loginPage.navigate()
-  await poManager.loginPage.loginViaEmailAndPassword(email, password);
+  await poManager.authPage.navigate()
+  await poManager.authPage.loginViaEmailAndPassword(email, password);
 
   await page.waitForURL(/\/account/);
 

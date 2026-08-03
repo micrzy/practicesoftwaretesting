@@ -1,5 +1,5 @@
 import { test as base, Page } from "@playwright/test";
-import { POManager } from "../page-objects/POManager";
+import { POManager } from "./po-manager";
 
 
 export const test = base.extend< {poManager: POManager}>({

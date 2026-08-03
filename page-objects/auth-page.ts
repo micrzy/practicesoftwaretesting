@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 
-export class LoginPage {
+export class AuthPage {
   constructor(readonly page: Page) {}
 
   async navigate() {
