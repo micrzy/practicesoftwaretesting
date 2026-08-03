@@ -17,7 +17,7 @@ test.describe("Test API Mock", () => {
     await page.locator('[data-test="nav-cart"]').click();
     await page.locator('[data-test="proceed-1"]').click();
 
-    await poManager.loginPage.loginViaEmailAndPassword(
+    await poManager.authPage.loginViaEmailAndPassword(
       process.env.TEST_EMAIL!,
       process.env.TEST_PASSWORD!,
     );
