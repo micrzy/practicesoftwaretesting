@@ -3,6 +3,7 @@ import { AuthPage } from "./auth-page"
 import { HomePage } from "./home-page"
 import { FilterSlideBarComponent } from "../components/filterslidebar-component"
 import { ContactPage } from "./contact-page"
+import { UserProfile } from "./user-profile.page"
 
 export class POManager {
   readonly page: Page;
@@ -10,6 +11,7 @@ export class POManager {
   readonly homePage: HomePage;
   readonly filterSlideBar: FilterSlideBarComponent;
   readonly contactPage: ContactPage;
+  readonly userProfile: UserProfile
 
   constructor(page: Page) {
     this.page = page;
@@ -17,5 +19,6 @@ export class POManager {
     this.homePage = new HomePage(page);
     this.filterSlideBar = new FilterSlideBarComponent(page);
     this.contactPage = new ContactPage(page)
+    this.userProfile = new UserProfile(page)
   }
 }
