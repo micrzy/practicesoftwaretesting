@@ -30,3 +30,4 @@ dist/
 
 #
 /tests/auth.setup.ts2
+/tests/fixtures/
