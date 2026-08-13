@@ -29,5 +29,5 @@ dist/
 .auth
 
 #
-/tests/auth.setup.ts2
+/tests/auth.setup
 /tests/fixtures/

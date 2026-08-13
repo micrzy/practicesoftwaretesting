@@ -1,15 +1,10 @@
+/// <reference types="node" />
 import { test, expect } from "../page-objects/fixtures";
 
 test.describe("Test API Mock", () => {
-  test("before checkout, intercept API and mock 500 Internal Server Error", async ({
-    poManager,
-    page,
-    
-  }) => {
- 
+  test.beforeEach(async ({ poManager, page }) => {
     await poManager.homePage.selectFirstProduct();
 
-    //await page.locator('[data-test="increase-quantity"]').click();
     const increaseBtn = page.locator('[data-test="increase-quantity"]');
     await expect(increaseBtn).toBeEnabled({ timeout: 10000 });
     await increaseBtn.click();
@@ -29,6 +24,13 @@ test.describe("Test API Mock", () => {
     await page.locator('[data-test="house_number"]').fill("12");
     await page.locator('[data-test="proceed-3"]').click();
 
+    await page
+      .locator('[data-test="payment-method"]')
+      .selectOption({ label: "Cash on Delivery" });
+  });
+  test("before checkout, intercept API and mock 500 Internal Server Error", async ({
+    page,
+  }) => {
     // Step 4: Setup API Mock 500
     let isMockTrigger = false;
     await page.route("**/payment/check", async (route) => {
@@ -39,13 +41,31 @@ test.describe("Test API Mock", () => {
         body: JSON.stringify({ message: "Internal Server Error" }),
       });
     });
-
-    await page
-      .locator('[data-test="payment-method"]')
-      .selectOption({ label: "Cash on Delivery" });
     await page.locator('[data-test="finish"]').click();
 
     await expect(page.locator(".alert-danger")).toHaveText("Unknown error");
     expect(isMockTrigger).toBeTruthy();
+  });
+
+  test.fixme("should disable checkout button when payment action repeat in low network condition", async ({
+    page,
+  }) => {
+    let requestCount = 0;
+    await page.route("**/payment/check", async (route) => {
+      requestCount++;
+      await new Promise((r) => setTimeout(r, 3000));
+      await route.continue();
+    });
+
+    const finishBtn = page.locator('[data-test="finish"]');
+
+    await Promise.all([
+      finishBtn.click(),
+      finishBtn.click(),
+      finishBtn.click(),
+    ]);
+
+    await expect.soft(finishBtn).toBeDisabled();
+    expect.soft(requestCount).toBe(1);
   });
 });
