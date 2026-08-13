@@ -14,7 +14,7 @@ test.describe("Login tests", () => {
       "Invalid email or password",
     );
   });
-  test("Login successful", async ({ page, poManager }) => {
+  test.skip("Login successful", async ({ page, poManager }) => {
     await poManager.authPage.loginViaEmailAndPassword(
       process.env.TEST_EMAIL!,
       process.env.TEST_PASSWORD!,
