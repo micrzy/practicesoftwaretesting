@@ -22,6 +22,8 @@ setup("authentication", async ({ request, page }) => {
 
   const accessToken = responseBody.access_token;
 
+  process.env.TEST_TOKEN = accessToken;
+
   await page.goto("/");
 
   await page.evaluate((token) => {
