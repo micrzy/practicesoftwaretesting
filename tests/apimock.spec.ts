@@ -3,7 +3,7 @@ import { test, expect } from "../page-objects/fixtures";
 
 test.describe("Test API Mock", () => {
   test.beforeEach(async ({ poManager, page }) => {
-    await poManager.homePage.selectFirstProduct();
+    await poManager.homePage.selectProduct();
 
     const increaseBtn = page.locator('[data-test="increase-quantity"]');
     await expect(increaseBtn).toBeEnabled({ timeout: 10000 });

@@ -13,7 +13,7 @@ async function setupCartAndProceed(
       process.env.TEST_PASSWORD!
     );
   }
-  await poManager.homePage.selectFirstProduct();
+  await poManager.homePage.selectProduct();
   await page.locator('[data-test="add-to-cart"]').click();
   await page.locator('[data-test="nav-cart"]').click();
   await page.locator('[data-test="proceed-1"]').click();
