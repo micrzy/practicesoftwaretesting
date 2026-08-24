@@ -9,16 +9,13 @@ test.describe("Data-Driven Search Tests", () => {
       await page.goto("/");
 
       const searchInput = page.locator('[data-test="search-query"]');
-
-      //await searchInput.clear();
+      
       await searchInput.fill(data.keyword);
 
-      const searchSubmit = page.locator('[data-test="search-submit"]');
-      //await expect(searchSubmit).toBeEnabled();
       const responsePromise = page.waitForResponse((response) =>
         response.url().includes("/products/search") && response.status() === 200
       );
-      await searchSubmit.click();
+      await page.locator('[data-test="search-submit"]').click();
 
       await responsePromise;
 
