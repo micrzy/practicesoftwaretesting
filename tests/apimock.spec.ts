@@ -73,14 +73,18 @@ test.describe("Test API Mock", () => {
 test.describe("Mock Out Of Stock Senario",()=>{
   test("should show out of stock when mock in stock to false",async({page})=>{
     
-    await page.route("**/products/01M0ST94VCQ7ZAKPNNN0SCPWC5",async(route)=>{
+    await page.goto('/')
+    const productData = await page.locator('[class="card"]').first().getAttribute("data-test")
+    const productId =  productData!.split('-')[1];
+
+    await page.route(`**/products/${productId}`,async(route)=>{
      const response = await route.fetch()
      const json = await response.json()
 
      json.in_stock = false;
      await route.fulfill({response,json})
   })
-  await page.goto("/product/01M0ST94VCQ7ZAKPNNN0SCPWC5");
+  await page.goto(`/product/${productId}`);
   await expect(page.locator('[data-test="out-of-stock"]')).toHaveText('Out of stock')
 })
 
