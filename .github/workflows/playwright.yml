@@ -26,6 +26,7 @@ jobs:
           -e TEST_EMAIL="${TEST_EMAIL}" \
           -e TEST_PASSWORD="${TEST_PASSWORD}" \
           -v ${{ github.workspace }}/playwright-report:/practiceapp/playwright-report \
+          -v ${{ github.workspace }}/test-results:/practiceapp/test-results \
           my-practice-app npx playwright test
 
     # 3. test report upload
