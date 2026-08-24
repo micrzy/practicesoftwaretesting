@@ -1,0 +1,14 @@
+[
+    {
+        "keyword":"Pliers",
+        "expectedItem": "Combination Pliers"
+    },
+    {
+        "keyword": "Hammer",
+        "expectedItem": "Claw Hammer"
+    },
+    {
+        "keyword": "Saw",
+        "expectedItem": "Wood Saw"
+    }
+]
