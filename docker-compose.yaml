@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+    environment: 
+      - ENV=${ENV:-dev}
     command: npx playwright test
     volumes:
       - ./playwright-report/:/practiceapp/playwright-report

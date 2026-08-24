@@ -69,3 +69,19 @@ test.describe("Test API Mock", () => {
     expect.soft(requestCount).toBe(1);
   });
 });
+
+test.describe("Mock Out Of Stock Senario",()=>{
+  test("should show out of stock when mock in stock to false",async({page})=>{
+    
+    await page.route("**/products/01M0SPVBFCQZGD34CWRGFKHZQQ",async(route)=>{
+     const response = await route.fetch()
+     const json = await response.json()
+
+     json.in_stock = false;
+     await route.fulfill({response,json})
+  })
+  await page.goto("/product/01M0SPVBFCQZGD34CWRGFKHZQQ");
+  expect(page.locator('[data-test="out-of-stock"]')).toHaveText('Out of stock')
+})
+
+  })

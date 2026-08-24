@@ -2,17 +2,12 @@
 
 import { defineConfig, devices } from "@playwright/test";
 import path from "path";
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
 import dotenv from 'dotenv';
+
+
+const environment = process.env.ENV || "dev";
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
@@ -28,15 +23,14 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: "https://practicesoftwaretesting.com/",
+   
+    baseURL: process.env.BASE_URL || "https://practicesoftwaretesting.com",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
     screenshot: "only-on-failure"
   },
 
-  /* Configure projects for major browsers */
   projects: [
     {
       name: "setup",
@@ -99,7 +93,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
-  //   url: 'https://practicesoftwaretesting.com/',
+  //   url: '',
     //reuseExistingServer: !process.env.CI,
   //},
 });
