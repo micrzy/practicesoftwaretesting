@@ -1,4 +1,4 @@
-import { test, expect } from "../page-objects/fixtures.ts";
+import { test, expect } from "../../page-objects/fixtures.ts";
 
 test.describe("Login tests", () => {
   test.beforeEach(async ({ poManager }) => {

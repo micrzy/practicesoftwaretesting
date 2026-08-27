@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { test, expect } from "../page-objects/fixtures";
+import { test, expect } from "../../page-objects/fixtures";
 
 test.describe("Test API Mock", () => {
   test.beforeEach(async ({ poManager, page }) => {
@@ -74,11 +74,8 @@ test.describe("Mock Out Of Stock Senario",()=>{
   test("should show out of stock when mock in stock to false",async({page})=>{
 
     await page.goto('/')
-
-    const productCard = page.locator('[data-test^="product-"]').first();
-    await productCard.waitFor({ state: "visible" });
-
-    const productData = await productCard.getAttribute("data-test");
+    
+    const productData = await page.locator('[class="card"]').first().getAttribute("data-test")
     const productId =  productData!.split('-')[1];
 
     await page.route(`**/products/${productId}`,async(route)=>{

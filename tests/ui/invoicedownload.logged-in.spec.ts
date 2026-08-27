@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { test, expect } from "../page-objects/fixtures";
+import { test, expect } from "../../page-objects/fixtures";
 import path from "path";
 import fs from "fs";
 

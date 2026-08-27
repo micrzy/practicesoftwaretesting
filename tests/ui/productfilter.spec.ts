@@ -1,4 +1,4 @@
-import {test, expect} from "../page-objects/fixtures"     
+import {test, expect} from "../../page-objects/fixtures"     
 
 test.describe("Product Filter",()=>{
     test("verify filted product via API response interception",async({poManager,page})=>{
