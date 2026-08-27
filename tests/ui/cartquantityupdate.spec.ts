@@ -1,4 +1,4 @@
-import { test, expect } from "../page-objects/fixtures";
+import { test, expect } from "../../page-objects/fixtures";
 
 test.describe("Cart Quantity Operation", () => {
   test("should recalculate line total and show alert when updating item quantity", async ({

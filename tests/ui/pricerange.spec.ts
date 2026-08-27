@@ -1,4 +1,4 @@
-import { test, expect } from "../page-objects/fixtures";
+import { test, expect } from "../../page-objects/fixtures";
 
 test.describe("Test Price Range Slide", () => {
   test("slide max price to 30, make sure price for all products presented on page are lower or equal than 30 ", async ({

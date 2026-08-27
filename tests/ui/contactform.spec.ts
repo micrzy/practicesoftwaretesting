@@ -1,4 +1,4 @@
-import {test,expect} from "../page-objects/fixtures"
+import {test,expect} from "../../page-objects/fixtures"
 
 test.describe("contact form testing",()=>{
     test("should successfully upload a txt file as a guest",async({poManager,page})=>{

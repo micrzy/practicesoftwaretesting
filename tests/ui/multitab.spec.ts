@@ -1,4 +1,4 @@
-import { test, expect } from "../page-objects/fixtures";
+import { test, expect } from "../../page-objects/fixtures";
 
 test.describe("Multi-Tab Navigation", () => {
   test("should open external Unsplash link in a new tab and keep current product page open", async ({page,poManager}) => {

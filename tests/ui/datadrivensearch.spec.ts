@@ -1,5 +1,5 @@
-import { test, expect } from "../page-objects/fixtures";
-import searchData from "../test-data/product.json";
+import { test, expect } from "../../page-objects/fixtures";
+import searchData from "../../test-data/product.json";
 
 test.describe("Data-Driven Search Tests", () => {
   for (const data of searchData) {

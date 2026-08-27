@@ -1,4 +1,4 @@
-import { test, expect } from "../page-objects/fixtures";
+import { test, expect } from "../../page-objects/fixtures";
 
 
 async function setupCartAndProceed(
