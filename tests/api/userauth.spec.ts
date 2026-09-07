@@ -12,28 +12,14 @@ test.describe("User Auth API Test", () => {
   });
 
   test("should return 200 and user profile when accessing with valid token", async ({
-    request,
+    request,apiToken
   }) => {
-    const login_response = await request.post(
-      "https://api.practicesoftwaretesting.com/users/login",
-
-      {
-        data: {
-          email: process.env.TEST_EMAIL!,
-
-          password: process.env.TEST_PASSWORD!,
-        },
-      },
-    );
-
-    const responseBody = await login_response.json();
-    const access_token = responseBody.access_token;
 
     const response = await request.get(
       "https://api.practicesoftwaretesting.com/favorites",
       {
         headers: {
-          Authorization: `Bearer ${access_token}`,
+          Authorization: `Bearer ${apiToken}`,
         },
       },
     );
