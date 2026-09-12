@@ -1,0 +1,33 @@
+{
+    "DE":{
+        "nav": {
+            "home": "Start",
+            "categories": "Kategorien",
+            "contact": "Kontakt",
+            "signIn": "Einloggen"
+        },
+        "sidebar":{
+            "sort": "Sortieren",
+            "priceRange": "Preisspanne",
+            "search": "Suche",
+            "filter": "Filter",
+            "byCategory": "Nach Kategorie:"
+        }
+    },
+
+    "NL":{
+    "nav": {
+      "home": "Home",
+      "categories": "Categorieën",
+      "contact": "Contact",
+      "signIn": "Inloggen"
+    },
+    "sidebar":{
+      "sort": "Sorteren",
+      "priceRange":"Prijsklasse",
+      "search": "Zoeken",
+      "filter": "Filter",
+      "byCategory": "Op categorie:"
+    }
+  }
+}
