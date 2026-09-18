@@ -22,8 +22,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ENV: ${{ github.event.inputs.target_env || 'dev'}}
-      
+      ENV: ${{ github.event.inputs.target_env || 'staging'}}
+
     steps:
     - uses: actions/checkout@v4
 
