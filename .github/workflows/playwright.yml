@@ -4,10 +4,26 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'choose env'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - dev
+          - staging
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    env:
+      ENV: ${{ github.event.inputs.target_env || 'dev'}}
+      
     steps:
     - uses: actions/checkout@v4
 
