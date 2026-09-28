@@ -1,6 +1,6 @@
 import { test, expect } from "../../page-objects/fixtures.ts";
 
-test.describe("Login tests", () => {
+test.describe("Login tests @sanity @regression", () => {
   test.beforeEach(async ({ poManager }) => {
     await poManager.authPage.navigate();
   });

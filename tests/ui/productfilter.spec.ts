@@ -1,6 +1,6 @@
 import {test, expect} from "../../page-objects/fixtures"     
 
-test.describe("Product Filter",()=>{
+test.describe("Product Filter @regression",()=>{
     test("verify filted product via API response interception",async({poManager,page})=>{
 
         await poManager.filterSlideBar.navigate()

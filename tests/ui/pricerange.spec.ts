@@ -1,6 +1,6 @@
 import { test, expect } from "../../page-objects/fixtures";
 
-test.describe("Test Price Range Slide", () => {
+test.describe("Test Price Range Slide @regression", () => {
   test("slide max price to 30, make sure price for all products presented on page are lower or equal than 30 ", async ({
     poManager,
     page,

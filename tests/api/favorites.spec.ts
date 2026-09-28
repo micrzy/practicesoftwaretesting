@@ -1,7 +1,7 @@
 import { test, expect } from "../../page-objects/fixtures";
 import { getThirdProductId } from "./helper/api-helpers";
 
-test.describe("Favorites API Management", () => {
+test.describe("Favorites API Management @regression", () => {
   test("should complete favorites lifecycle: add, verify, and delete", async ({
     request,
     apiToken,

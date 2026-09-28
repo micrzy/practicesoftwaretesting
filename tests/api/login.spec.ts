@@ -2,7 +2,7 @@
 import { APIRequestContext } from "@playwright/test";
 import { test, expect } from "../../page-objects/fixtures";
 
-test.describe("Login Function API test", () => {
+test.describe("Login Function API test @sanity @regression", () => {
   async function APILogin(
     email: string,
     password: string,

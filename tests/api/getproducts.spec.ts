@@ -1,6 +1,6 @@
 import { test, expect } from "../../page-objects/fixtures";
 
-test.describe("Get Products info from API", () => {
+test.describe("Get Products info from API @smoke @regression", () => {
   test("should get products list", async ({ request }) => {
     const response = await request.fetch(
       "https://api.practicesoftwaretesting.com/products",
