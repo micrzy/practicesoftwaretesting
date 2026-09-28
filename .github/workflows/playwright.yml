@@ -21,6 +21,7 @@ on:
         default: 'smoke'
         type: choice
         options:
+          - sanity
           - smoke
           - regression
 
