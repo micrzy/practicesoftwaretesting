@@ -39,7 +39,7 @@ jobs:
       id: set-tag
       run: |
         if [ "${{ github.event_name }}" = "pull_request" ]; then
-          echo "GREP_TAG=@smoke" >> $GITHUB_ENV
+          echo "GREP_TAG=@sanity" >> $GITHUB_ENV
         elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
           echo "GREP_TAG=@${{ github.event.inputs.test_suite }}" >> $GITHUB_ENV
         else
