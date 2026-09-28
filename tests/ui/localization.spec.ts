@@ -1,7 +1,7 @@
 import { test, expect } from "../../page-objects/fixtures";
 import i18nData from "../../test-data/i18n-labels.json";
 
-test.describe("UI Localization & i18n Test", () => {
+test.describe("UI Localization & i18n Test @regression", () => {
   for (const lang of ["DE", "NL"] as const) {
     test(`should display correct UI lables when switched to ${lang}`, async ({
       page,

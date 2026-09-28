@@ -15,6 +15,14 @@ on:
         options:
           - dev
           - staging
+      test_suite:
+        description: 'Choose Test Suite'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - smoke
+          - regression
 
 jobs:
   test:
@@ -26,6 +34,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Determine Test Suite Tag
+      id: set-tag
+      run: |
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "GREP_TAG=@smoke" >> $GITHUB_ENV
+        elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "GREP_TAG=@${{ github.event.inputs.test_suite }}" >> $GITHUB_ENV
+        else
+          echo "GREP_TAG=@smoke" >> $GITHUB_ENV
+        fi
 
     # 1. creat Docker image
     - name: Build Docker image
@@ -42,7 +61,7 @@ jobs:
           -e TEST_EMAIL="${TEST_EMAIL}" \
           -e TEST_PASSWORD="${TEST_PASSWORD}" \
           -v ${{ github.workspace }}/playwright-report:/practiceapp/playwright-report \
-          my-practice-app npx playwright test
+          my-practice-app npx playwright test --grep "${GREP_TAG}"
 
     # 3. test report upload
     - uses: actions/upload-artifact@v4

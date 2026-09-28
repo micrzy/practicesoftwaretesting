@@ -1,7 +1,7 @@
 import { test, expect } from "../../page-objects/fixtures";
 import searchData from "../../test-data/product.json";
 
-test.describe("Data-Driven Search Tests", () => {
+test.describe("Data-Driven Search Tests @regression", () => {
   for (const data of searchData) {
     test(`[Search] Query: "${data.keyword}" -> Should contain "${data.expectedItem}" and match all results`, async ({
       page,

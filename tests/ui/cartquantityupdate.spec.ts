@@ -1,6 +1,6 @@
 import { test, expect } from "../../page-objects/fixtures";
 
-test.describe("Cart Quantity Operation", () => {
+test.describe("Cart Quantity Operation @smoke @regression", () => {
   test("should recalculate line total and show alert when updating item quantity", async ({
     page,
     poManager,

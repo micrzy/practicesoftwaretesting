@@ -19,7 +19,7 @@ async function setupCartAndProceed(
   await page.locator('[data-test="proceed-1"]').click();
 }
 
-test.describe("Checkout Navigation Permissions", () => {
+test.describe("Checkout Navigation Permissions @smoke @regression", () => {
  
   test("should redirect guest user to Sign-In step upon clicking proceed to checkout", async ({
     page,

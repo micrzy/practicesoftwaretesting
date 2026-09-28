@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { test, expect } from "../../page-objects/fixtures";
 
-test.describe("Test API Mock", () => {
+test.describe("Test API Mock @regression", () => {
   test.beforeEach(async ({ poManager, page }) => {
     await poManager.homePage.selectProduct();
 
@@ -70,7 +70,7 @@ test.describe("Test API Mock", () => {
   });
 });
 
-test.describe("Mock Out Of Stock Senario",()=>{
+test.describe("Mock Out Of Stock Senario @regression",()=>{
   test("should show out of stock when mock in stock to false",async({page})=>{
 
     await page.goto('/')

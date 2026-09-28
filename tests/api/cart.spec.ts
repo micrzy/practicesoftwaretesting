@@ -1,7 +1,7 @@
 import { test, expect } from "../../page-objects/fixtures";
 import {getThirdProductId} from "./helper/api-helpers"
 
-test.describe("Shopping Cart Management",()=>{
+test.describe("Shopping Cart Management @regression",()=>{
     test("should complete shopping cart lifecycle: create, add item, and verify",async({request})=>{
 
         const cartResponse = await request.post("https://api.practicesoftwaretesting.com/carts")
