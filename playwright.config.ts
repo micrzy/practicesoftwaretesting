@@ -6,8 +6,7 @@ import dotenv from 'dotenv';
 
 
 const environment = process.env.ENV || "dev";
-dotenv.config({ path: path.resolve(__dirname, '.env') });
-console.log(`ENV=${environment}, BASE_URL=${process.env.BASE_URL}`);
+dotenv.config({ path: path.resolve(__dirname, `.env.${environment}`) });
 
 export default defineConfig({
   testDir: "./tests",
@@ -25,7 +24,7 @@ export default defineConfig({
   
   use: {
    
-    baseURL: process.env.BASE_URL || "https://practicesoftwaretesting.com",
+    baseURL: process.env.BASE_URL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
