@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 
 const environment = process.env.ENV || "dev";
 dotenv.config({ path: path.resolve(__dirname, '.env') });
+console.log(`ENV=${environment}, BASE_URL=${process.env.BASE_URL}`);
 
 export default defineConfig({
   testDir: "./tests",
@@ -89,7 +90,7 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-
+  
   /* Run your local dev server before starting the tests */
   // webServer: {
   //   command: 'npm run start',
