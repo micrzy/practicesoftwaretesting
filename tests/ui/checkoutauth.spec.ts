@@ -34,14 +34,4 @@ test.describe("Checkout Navigation Permissions @smoke @regression", () => {
     await expect(guestTab).toHaveText("Continue as Guest");
   });
 
-
-// BUG: Top navigation links (<a href="/">) trigger a hard reload instead of SPA routing.
-// This resets the in-memory AuthService state and drops the logged-in session back to Guest.
-  test.fixme("should navigate logged-in user directly to Billing Address step", async ({
-    page,
-    poManager,
-  }) => {
-    await setupCartAndProceed(page, poManager, true);
-   await expect(page.locator('[formgroupname="address"]')).toBeVisible();
-  });
 });

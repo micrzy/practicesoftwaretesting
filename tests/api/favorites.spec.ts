@@ -1,5 +1,6 @@
 import { test, expect } from "../../page-objects/fixtures";
 import { getThirdProductId } from "./helper/api-helpers";
+import { API_URL } from "../../utils/env";
 
 test.describe("Favorites API Management @regression", () => {
   test("should complete favorites lifecycle: add, verify, and delete", async ({
@@ -9,7 +10,7 @@ test.describe("Favorites API Management @regression", () => {
     const productId = await getThirdProductId(request);
 
     const response = await request.post(
-      "https://api.practicesoftwaretesting.com/favorites",
+      `${API_URL}/favorites`,
       {
         headers: {
           Authorization: `Bearer ${apiToken}`,
@@ -23,7 +24,7 @@ test.describe("Favorites API Management @regression", () => {
     expect(response.status()).toBe(201);
 
     const getFavoriteResponse = await request.get(
-      "https://api.practicesoftwaretesting.com/favorites",
+      `${API_URL}/favorites`,
       {
         headers: {
           Authorization: `Bearer ${apiToken}`,
@@ -46,7 +47,7 @@ test.describe("Favorites API Management @regression", () => {
 
     //  DELETE product from favorite list
     const deleteResponse = await request.delete(
-      `https://api.practicesoftwaretesting.com/favorites/${favoriteId}`,
+      `${API_URL}/favorites/${favoriteId}`,
       {
         headers: {
           Authorization: `Bearer ${apiToken}`,

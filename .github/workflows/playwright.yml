@@ -8,11 +8,12 @@ on:
   workflow_dispatch:
     inputs:
       target_env:
-        description: 'choose env'
+        description: 'choose env (local = self-hosted app inside CI, no anti-bot)'
         required: true
-        default: 'staging'
+        default: 'local'
         type: choice
         options:
+          - local
           - dev
           - staging
       test_suite:
@@ -31,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ENV: ${{ github.event.inputs.target_env || 'staging'}}
+      ENV: ${{ github.event.inputs.target_env || 'local'}}
 
     steps:
     - uses: actions/checkout@v4
@@ -47,22 +48,32 @@ jobs:
           echo "GREP_TAG=@smoke" >> $GITHUB_ENV
         fi
 
+    # 0. start the app under test on this runner (only for local env)
+    - name: Start self-hosted app (SUT)
+      if: env.ENV == 'local'
+      run: bash ci/start-sut.sh
+
     # 1. creat Docker image
     - name: Build Docker image
       run: docker build -t my-practice-app .
 
     # 2. run test on container
+    # --network host: lets the container reach the SUT on the runner's localhost
     - name: Run Playwright tests in Docker
       env:
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
         TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
       run: |
-        docker run --rm \
+        docker run --rm --network host \
           -e ENV="${ENV}" \
           -e TEST_EMAIL="${TEST_EMAIL}" \
           -e TEST_PASSWORD="${TEST_PASSWORD}" \
           -v ${{ github.workspace }}/playwright-report:/practiceapp/playwright-report \
           my-practice-app npx playwright test --grep "${GREP_TAG}"
+
+    - name: Dump SUT logs on failure
+      if: failure() && env.ENV == 'local'
+      run: docker compose -f ci/docker-compose.sut.yml logs --tail 100
 
     # 3. test report upload
     - uses: actions/upload-artifact@v4

@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { APIRequestContext } from "@playwright/test";
 import { test, expect } from "../../page-objects/fixtures";
+import { API_URL } from "../../utils/env";
 
 test.describe("Login Function API test @sanity @regression", () => {
   async function APILogin(
@@ -9,7 +10,7 @@ test.describe("Login Function API test @sanity @regression", () => {
     request: APIRequestContext,
   ) {
     const response = await request.post(
-      "https://api.practicesoftwaretesting.com/users/login",
+      `${API_URL}/users/login`,
       {
         data: {
           email: email,

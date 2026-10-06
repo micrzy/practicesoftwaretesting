@@ -1,12 +1,13 @@
 /// <reference types="node" />
 import { test, expect } from "../../page-objects/fixtures";
+import { API_URL } from "../../utils/env";
 
 test.describe("User Auth API Test", () => {
   test("should return 401 when accessing without token", async ({
     request,
   }) => {
     const response = await request.get(
-      "https://api.practicesoftwaretesting.com/favorites",
+      `${API_URL}/favorites`,
     );
     expect(response.status()).toBe(401);
   });
@@ -16,7 +17,7 @@ test.describe("User Auth API Test", () => {
   }) => {
 
     const response = await request.get(
-      "https://api.practicesoftwaretesting.com/favorites",
+      `${API_URL}/favorites`,
       {
         headers: {
           Authorization: `Bearer ${apiToken}`,

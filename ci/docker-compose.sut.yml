@@ -1,0 +1,46 @@
+# System under test (SUT): self-hosted Toolshop app for CI and local runs.
+# Based on testsmith-io/practice-software-testing docker-compose.prod.yml (sprint5).
+# The cron service is omitted - start-sut.sh generates invoice PDFs explicitly.
+# web: the published testsmith web image is arm64-only, so we run the same
+# nginx base image (multi-arch) with the same vhost config instead.
+name: sut
+
+services:
+  laravel-api:
+    image: testsmith/practice-software-testing-sprint5-api
+    environment:
+      - "PHP_OPCACHE_VALIDATE_TIMESTAMPS=1"
+      - "DB_PORT=3306"
+      - "DB_HOST=mariadb"
+      - "host=localhost"
+    volumes:
+      - laravel-app-code:/var/www
+    depends_on:
+      - mariadb
+
+  angular-ui:
+    image: testsmith/practice-software-testing-sprint5-ui
+    ports:
+      - 4200:4200
+    command: >
+      bash -c "ng serve --host 0.0.0.0 --port 4200"
+
+  web:
+    image: nginx:1.23.3-alpine
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - 8091:80
+    depends_on:
+      - laravel-api
+
+  mariadb:
+    image: yobasystems/alpine-mariadb:10.6.11
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: toolshop
+
+volumes:
+  laravel-app-code:

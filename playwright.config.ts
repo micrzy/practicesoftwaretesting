@@ -6,7 +6,9 @@ import dotenv from 'dotenv';
 
 
 const environment = process.env.ENV || "dev";
-dotenv.config({ path: path.resolve(__dirname, `.env.${environment}`) });
+// Environment URLs (committed) + local secrets from .env (gitignored; CI uses GitHub Secrets)
+dotenv.config({ path: path.resolve(__dirname, `.env.${environment}`), quiet: true });
+dotenv.config({ path: path.resolve(__dirname, ".env"), quiet: true });
 
 export default defineConfig({
   testDir: "./tests",
