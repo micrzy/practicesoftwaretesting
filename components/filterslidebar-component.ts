@@ -16,12 +16,12 @@ export class FilterSlideBarComponent{
     }
 
      async navigate(){
-        this.page.goto('/')
+        await this.page.goto('/')
     }
 
     // --- Brand / Category Checkboxes ---
     async checkOption(filterName:string){
-         await this.container.getByRole('checkbox',{name:filterName}).check({force:true})
+         await this.container.getByRole('checkbox', { name: filterName }).check({ force: true })
 
     }
 
