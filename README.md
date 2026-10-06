@@ -1,5 +1,7 @@
 # Playwright E2E & API Test Suite
 
+[![Playwright Tests](https://github.com/micrzy/practicesoftwaretesting/actions/workflows/playwright.yml/badge.svg?branch=main)](https://github.com/micrzy/practicesoftwaretesting/actions/workflows/playwright.yml)
+
 ![Playwright Tests](https://github.com/micrzy/practicesoftwaretesting/actions/workflows/playwright.yml/badge.svg)
 
 E2E and API test automation for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop app, built with **Playwright**, **TypeScript**, and **Docker**.
