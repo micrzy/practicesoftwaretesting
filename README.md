@@ -16,7 +16,6 @@ E2E and API test automation for the [Practice Software Testing](https://practice
 * **Fast authentication**: log in once via API and reuse the session with `storageState`
 * **Multi-environment config**: switch target environment with one variable (`ENV`)
 * **Tagged test suites**: `@sanity`, `@smoke`, `@regression` for different pipeline stages
-* **Self-hosted test environment in CI**: the app under test runs in Docker on the CI runner, so tests are stable and not blocked by the public site's bot detection
 
 ## 🌍 Environments
 | ENV | Target | Use |
