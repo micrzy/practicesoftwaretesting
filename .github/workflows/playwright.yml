@@ -51,7 +51,7 @@ jobs:
     # 0. start the app under test on this runner (only for local env)
     - name: Start self-hosted app (SUT)
       if: env.ENV == 'local'
-      run: ./ci/start-sut.sh
+      run: bash ci/start-sut.sh
 
     # 1. creat Docker image
     - name: Build Docker image
