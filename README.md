@@ -1,17 +1,36 @@
-# Playwright & Docker E2E Test Suite
+# Playwright E2E & API Test Suite
 
-A containerized E2E test automation framework built with **Playwright**, **TypeScript**, and **Docker** to ensure fast, reliable, and isolated end-to-end testing.
+![Playwright Tests](https://github.com/micrzy/practicesoftwaretesting/actions/workflows/playwright.yml/badge.svg)
+
+E2E and API test automation for the [Practice Software Testing](https://practicesoftwaretesting.com) Toolshop app, built with **Playwright**, **TypeScript**, and **Docker**.
 
 ## 🛠️ Tech Stack
-* **Framework**: [Playwright](https://playwright.dev/)
-* **Language**: TypeScript / JavaScript
+* **Framework**: Playwright (UI + API testing)
+* **Language**: TypeScript
 * **Containerization**: Docker & Docker Compose
-* **CI/CD Ready**: Configured for seamless headless pipeline execution
+* **CI/CD**: GitHub Actions
 
 ## 🚀 Key Features
-* **Isolated Environment**: Runs tests inside Docker containers to eliminate local setup dependencies.
-* **Modern E2E Testing**: Covers functional workflows, UI validations, and API assertions.
-* **Auto-Waiting & Resilience**: Utilizes Playwright's native auto-waiting mechanisms to eliminate flaky test executions.
+* **Page Object Model** with reusable components and custom fixtures
+* **UI + API + mocking**: UI flows, REST API tests, and network interception/mocking
+* **Fast authentication**: log in once via API and reuse the session with `storageState`
+* **Multi-environment config**: switch target environment with one variable (`ENV`)
+* **Tagged test suites**: `@sanity`, `@smoke`, `@regression` for different pipeline stages
+* **Self-hosted test environment in CI**: the app under test runs in Docker on the CI runner, so tests are stable and not blocked by the public site's bot detection
+
+## 🌍 Environments
+| ENV | Target | Use |
+|---|---|---|
+| `local` | Self-hosted app in Docker (`ci/`) | CI default, stable and isolated |
+| `staging` | practicesoftwaretesting.com | Real public site |
+| `dev` | with-bugs.practicesoftwaretesting.com | Version with intentional bugs |
+
+## 🔄 CI Pipeline
+| Trigger | Environment | Suite |
+|---|---|---|
+| Pull request to `main` | local | `@sanity` |
+| Push to `main` | local | `@smoke` |
+| Manual (workflow_dispatch) | choose | choose |
 
 ## 🧰 Getting Started
 
@@ -19,17 +38,22 @@ A containerized E2E test automation framework built with **Playwright**, **TypeS
 * Node.js (v18+)
 * Docker & Docker Compose
 
-### Running Tests Locally
+### Run tests
 ```bash
-# 1. Install dependencies
 npm install
 
-# 2. Run Playwright tests
-npx playwright test
+# against the public site
+ENV=staging npx playwright test
 
-# 3. View HTML Report
+# against a local self-hosted app
+bash ci/start-sut.sh
+ENV=local npx playwright test
+
+# run a single suite
+ENV=staging npx playwright test --grep @smoke
+
+# view the HTML report
 npx playwright show-report
+```
 
-## ⚠️ Known Issue & CI Environment Behavior
-* **Anti-Bot / CAPTCHA Restrictions**: Auth & Login test suites may fail under public CI environments (e.g., GitHub Actions runners) due to the target test site's automated bot detection blocking cloud datacenters.
-* **Local & Docker Execution**: These tests execute and pass successfully in local and containerized environments using residential networks.
+Credentials are read from a local `.env` file (not committed) or from GitHub Secrets in CI.
