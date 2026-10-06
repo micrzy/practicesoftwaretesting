@@ -4,28 +4,21 @@ test.describe("Product Filter @regression",()=>{
     test("verify filted product via API response interception",async({poManager,page})=>{
 
         await poManager.filterSlideBar.navigate()
-
-        let latestProducts: any[] = []
-
-        page.on("response",async(response)=>{
-            if(response.url().includes("/products")&&response.request().method()==="QUERY"){
-                 try{ 
-                    const body = await response.json()
-                 if(body?.data){
-                    latestProducts = body.data
-
-                 }
-                 }catch(e){
-
-                 }
-            }
-        })
+        
         await poManager.filterSlideBar.checkOption('Hand Tools')
+        
+        const brandResponsePromise = page.waitForResponse((response) => {
+            return response.url().includes("/products") && response.request().method() === "QUERY"&&(response.request().postData() ?? "").includes("by_brand")
+        })
+        
         await poManager.filterSlideBar.checkOption('ForgeFlex Tools')
 
-        await page.waitForTimeout(1500)
-        expect(latestProducts.length).toBeGreaterThan(0)
-        for(const product of latestProducts){
+        const brandResponse = await brandResponsePromise
+        const body = await brandResponse.json()
+        const products = body?.data
+
+        expect(products.length).toBeGreaterThan(0)
+        for(const product of products){
             expect(product.brand.name).toBe('ForgeFlex Tools')
         }  
     })

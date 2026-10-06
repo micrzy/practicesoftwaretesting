@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import { test, expect } from "../../page-objects/fixtures";
+import path from "path";
 import fs from "fs";
 
 test.describe("invoices testing", () => {
@@ -8,18 +9,29 @@ test.describe("invoices testing", () => {
     poManager,
   }) => {
     await poManager.userProfile.goToInvoicesPage();
-    const invoiceNumber = await poManager.userProfile.getFirstInvoiceNumber();
 
     const downloadPromise = page.waitForEvent("download");
-    await poManager.userProfile.downloadInvoiceByNumber(invoiceNumber);
+
+    await poManager.userProfile.downloadInvoiceByNumber("INV-20260000024");
+
     const download = await downloadPromise;
 
-    expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+    const fileName =
+      download.suggestedFilename() || "invoice-INV-20260000024.pdf";
 
-    // Save into this test's output folder instead of the repo
-    const filePath = test.info().outputPath(download.suggestedFilename());
-    await download.saveAs(filePath);
+    const dirPath = path.join(__dirname, "fixtures");
+    const filePath = path.join(dirPath, fileName);
 
-    expect(fs.statSync(filePath).size).toBeGreaterThan(0);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+      await download.saveAs(filePath);
+
+      expect(download.suggestedFilename()).toContain(".pdf");
+      const fileStats = fs.statSync(filePath);
+
+      expect(fileStats.size).toBeGreaterThan(0);
+  
   });
 });
