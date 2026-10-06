@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { test as base, Page } from "@playwright/test";
 import { POManager } from "./po-manager";
+import { API_URL } from "../utils/env";
 
 
 export const test = base.extend< {poManager: POManager;apiToken: string}>({
@@ -11,7 +12,7 @@ export const test = base.extend< {poManager: POManager;apiToken: string}>({
   
   apiToken: async ({ request }, use) => {
     const loginResponse = await request.post(
-      "https://api.practicesoftwaretesting.com/users/login",
+      `${API_URL}/users/login`,
       {
         data: {
           email: process.env.TEST_EMAIL!,

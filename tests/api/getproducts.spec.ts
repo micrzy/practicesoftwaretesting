@@ -1,9 +1,10 @@
 import { test, expect } from "../../page-objects/fixtures";
+import { API_URL } from "../../utils/env";
 
 test.describe("Get Products info from API @smoke @regression", () => {
   test("should get products list", async ({ request }) => {
     const response = await request.fetch(
-      "https://api.practicesoftwaretesting.com/products",
+      `${API_URL}/products`,
       {
         method:"QUERY",
         data: {
@@ -38,7 +39,7 @@ test.describe("Get Products info from API @smoke @regression", () => {
 
    test("should get products list in price 5 to 130", async ({ request }) => {
     const response = await request.fetch(
-      "https://api.practicesoftwaretesting.com/products",
+      `${API_URL}/products`,
       {
         method:"QUERY",
         data: {

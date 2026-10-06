@@ -1,3 +1,4 @@
+import { API_URL } from "../../../utils/env";
 import { APIRequestContext } from "@playwright/test";
 
 /**
@@ -5,7 +6,7 @@ import { APIRequestContext } from "@playwright/test";
  */
 export async function getThirdProductId(request: APIRequestContext): Promise<string> {
   const queryProductsResponse = await request.fetch(
-    "https://api.practicesoftwaretesting.com/products",
+    `${API_URL}/products`,
     {
       method: "QUERY",
       data: {

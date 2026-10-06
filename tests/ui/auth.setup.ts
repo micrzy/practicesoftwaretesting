@@ -1,11 +1,12 @@
 /// <reference types="node" />
 import { test as setup, expect } from "@playwright/test";
+import { API_URL } from "../../utils/env";
 
 const authFile = "./.auth/user.json";
 
 setup("authentication", async ({ request, page }) => {
   const response = await request.post(
-    "https://api.practicesoftwaretesting.com/users/login",
+    `${API_URL}/users/login`,
 
     {
       data: {
