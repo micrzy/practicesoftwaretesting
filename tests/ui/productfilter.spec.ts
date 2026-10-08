@@ -8,7 +8,7 @@ test.describe("Product Filter @regression",()=>{
         await poManager.filterSlideBar.checkOption('Hand Tools')
         
         const brandResponsePromise = page.waitForResponse((response) => {
-            return response.url().includes("/products") && response.request().method() === "QUERY"&&(response.request().postData() ?? "").includes("by_brand")
+            return response.url().includes("/products") && (response.request().postData() ?? "").includes("by_brand")
         })
         
         await poManager.filterSlideBar.checkOption('ForgeFlex Tools')
