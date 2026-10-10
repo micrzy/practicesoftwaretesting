@@ -1,5 +1,7 @@
 import { test, expect } from "../../page-objects/fixtures";
 import { API_URL } from "../../utils/env";
+import { productSchema } from "../../tests/api/schemas/product.schema"; 
+import { z } from "zod";
 
 test.describe("Get Products info from API @smoke @regression", () => {
   test("should get products list", async ({ request }) => {
@@ -17,24 +19,11 @@ test.describe("Get Products info from API @smoke @regression", () => {
     expect(response.status()).toBe(200);
     const responseBody = await response.json();
     const products = responseBody.data
-    const firstProduct = products[0]
 
-    expect(firstProduct).toHaveProperty('id')
-    expect(firstProduct).toHaveProperty('name')
-    expect(firstProduct).toHaveProperty('category')
-    expect(typeof firstProduct.price).toBe('number')
+    const result = productSchema.array().safeParse(products);
+    expect(result.success,result.error && z.prettifyError(result.error)).toBe(true);
 
-  //   const products = Array.isArray(responseBody)? responseBody: responseBody.data;
-  //   products.forEach((product: any) => {
-  //     expect(product).toEqual(
-  //       expect.objectContaining({
-  //         id: expect.anything(),
-  //         name: expect.anything(),
-  //         price: expect.any(Number),
-  //         category: expect.anything(),
-  //       }),
-  //     );
-  //   });
+   
    });
 
    test("should get products list in price 5 to 130", async ({ request }) => {
