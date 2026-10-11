@@ -1,5 +1,5 @@
 import { test, expect } from "../../page-objects/fixtures";
-import {getThirdProductId} from "./helper/api-helpers"
+import {getThirdProductId} from "../../utils/api-helpers"
 import { API_URL } from "../../utils/env";
 
 test.describe("Shopping Cart Management @regression",()=>{
