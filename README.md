@@ -16,7 +16,7 @@ E2E and API test automation for the [Practice Software Testing](https://practice
 * **Fast authentication**: log in once via API and reuse the session with `storageState`
 * **Multi-environment config**: switch target environment with one variable (`ENV`)
 * **Tagged test suites**: `@sanity`, `@smoke`, `@regression` for different pipeline stages
-* * **Performance testing with k6**: load and stress scenarios with p95 and error-rate thresholds, runnable on demand in GitHub Actions https://github.com/micrzy/practicesoftwaretesting/blob/main/perf/RESULTS.md
+* **Performance testing with k6**: load and stress scenarios with p95 and error-rate thresholds, runnable on demand in GitHub Actions https://github.com/micrzy/practicesoftwaretesting/blob/main/perf/RESULTS.md
 
 ## 🌍 Environments
 | ENV | Target | Use |
