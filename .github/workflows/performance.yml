@@ -1,0 +1,39 @@
+name: Performance Tests
+
+on:
+  workflow_dispatch:             
+    inputs:
+      scenario:
+        description: 'k6 scenario'
+        required: true
+        default: 'load'
+        type: choice
+        options:
+          - load
+          - stress            
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SCENARIO: ${{ github.event.inputs.scenario || 'load' }}   
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start self-hosted app (SUT)                      
+        run: bash ci/start-sut.sh
+
+      - uses: grafana/setup-k6-action@v1                       
+
+      - name: Run k6 ${{ env.SCENARIO }} test
+        env:
+          K6_WEB_DASHBOARD: true
+          K6_WEB_DASHBOARD_EXPORT: k6-report.html               
+        run: k6 run perf/${SCENARIO}.js
+
+      - uses: actions/upload-artifact@v4                       
+        if: ${{ !cancelled() }}
+        with:
+          name: k6-report-${{ env.SCENARIO }}
+          path: k6-report.html
