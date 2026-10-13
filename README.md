@@ -19,6 +19,22 @@ E2E and API test automation for the [Practice Software Testing](https://practice
 * **Performance testing with k6**: load and stress scenarios with p95 and error-rate thresholds, runnable on demand in GitHub Actions
 * **API contract testing**: Zod schema validation and negative tests (404, 422)
 * **API-driven test setup**: create test data via API (e.g. cart) instead of clicking through the UI
+* **AI-assisted test automation**: a Claude Code agent picks up Jira tasks, checks existing coverage, inspects the live site with Playwright MCP, writes tests using the existing page objects and fixtures, and updates Jira, with guardrails against weakening assertions
+
+## 🤖 Jira QA Agent
+
+Say `pick up SCRUM-X` in Claude Code to automate a Jira task:
+
+1. Read the task's steps and acceptance criteria from Jira (`utils/jira.ts`)
+2. Check whether existing tests already cover it
+3. Confirm real selectors on the live site with Playwright MCP
+4. Write or extend a test using the existing page objects and fixtures
+5. Run it 3 times; on success, link the test in Jira and move the task to Done
+
+**Guardrails** (`CLAUDE.md`): never remove or weaken assertions, no hard waits,
+stop after 3 failed fix attempts and report in Jira instead of moving to Done.
+
+Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability.
 
 ## 🌍 Environments
 | ENV | Target | Use |
