@@ -95,19 +95,24 @@ npx tsx utils/jira.ts append SCRUM-X "<text>"
 Steps:
 1. Fetch the task and read its test steps and acceptance criteria.
 2. Move the task to "In Progress".
-3. Check existing coverage in `tests/` first:
-   - Fully covered: don't create a new file. Add the `@SCRUM-X` tag and any missing assertions to the existing test.
-   - Partly covered: extend the existing test.
-   - Not covered: write a new spec in `tests/ui/` or `tests/api/`, following the existing naming style.
+3. Check existing coverage in `tests/` first. Coverage is by page or feature,not only by assertions:
+   - A spec already tests the same page or feature: extend that spec (add assertions, or add a test to its describe).
+   - No spec for that page or feature: write a new spec.
+   - If the task names a spec in "Existing coverage", follow it.
+   - If existing specs cover part of the criteria and the task doesn't say what to do,list the overlap and ask me before writing any code.
 4. Inspect https://practicesoftwaretesting.com with Playwright MCP to confirm real selectors before writing code.
 5. Write the test following the Architecture section above: import from `page-objects/fixtures.ts`, reuse or add page objects via `POManager`, use API-driven setup where possible, and use `${API_URL}`.
 6. Wrap each Jira step in `test.step()`. Every acceptance criterion must be an `expect()` assertion.
-7. Tag the describe with `@SCRUM-X` and suite tags based on the Jira labels:
-   - `sanity` → `@sanity @regression`
-   - `smoke` → `@smoke @regression`
-   - `regression` or `e2e` → `@regression`
-   - No label → `@regression`, and mention in the Jira note that no label was set
+7. Tag:  
+   - New spec: tag the describe with `@SCRUM-X` and the suite tags below.
+   - Test added to an existing spec: put `@SCRUM-X` in the test title, not on the describe. Add a suite tag to the test only if the describe doesn't already have it.
+   - Suite tags from the Jira labels:
+     - `sanity` → `@sanity @regression`
+     - `smoke` → `@smoke @regression`
+     - `regression` or `e2e` → `@regression`
+     - No label → `@regression`, and mention in the Jira note that no label was set
 8. Run it with `ENV=staging npx playwright test <file> --repeat-each=3`.
+   If you changed shared code (page-objects/, components/, utils/, fixtures), find the specs that use each changed method, locator or fixture, directly or through another method that calls it (search `tests/` for the names), run only those specs with `ENV=staging`, and list them with their results in your summary. Don't run the whole suite for this.
 9. If it passes: append "✅ Automation test: <file path>" to the task description, then move the task to "Done".
 
 Test rules:

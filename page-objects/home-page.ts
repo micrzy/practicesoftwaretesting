@@ -1,8 +1,13 @@
-import { Page,expect } from "@playwright/test";
+import { Page,Locator,expect } from "@playwright/test";
 
 export class HomePage {
   constructor(readonly page: Page) {}
 
+  productCard(productName: string): Locator {
+    return this.page.locator('a[data-test^="product-"]').filter({
+      has: this.page.locator('[data-test="product-name"]').getByText(productName, { exact: true }),
+    });
+  }
 
   async selectProduct() {
     await this.page.goto("/");
