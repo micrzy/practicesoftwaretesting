@@ -29,6 +29,10 @@ test.describe("Categories Dropdown Navigation @SCRUM-2 @smoke @regression",()=>{
             await expect(page).toHaveURL(/\/category\/power-tools$/)
         })
 
+        await test.step("Verify the Category: Power Tools title", async()=>{
+            await expect(poManager.categoryPage.pageTitle).toHaveText('Category: Power Tools')
+        })
+
         await test.step("Verify the page loads without errors", async()=>{
             expect(pageErrors, pageErrors.join('\n')).toEqual([])
         })

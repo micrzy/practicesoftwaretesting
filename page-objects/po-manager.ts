@@ -5,6 +5,7 @@ import { FilterSlideBarComponent } from "../components/filterslidebar-component"
 import { NavBarComponent } from "../components/navbar-component"
 import { ContactPage } from "./contact-page"
 import { UserProfile } from "./user-profile.page"
+import { CategoryPage } from "./category-page"
 
 export class POManager {
   readonly page: Page;
@@ -14,6 +15,7 @@ export class POManager {
   readonly navBar: NavBarComponent;
   readonly contactPage: ContactPage;
   readonly userProfile: UserProfile
+  readonly categoryPage: CategoryPage
 
   constructor(page: Page) {
     this.page = page;
@@ -23,5 +25,6 @@ export class POManager {
     this.navBar = new NavBarComponent(page);
     this.contactPage = new ContactPage(page)
     this.userProfile = new UserProfile(page)
+    this.categoryPage = new CategoryPage(page)
   }
 }
