@@ -110,6 +110,7 @@ Steps:
      - `regression` or `e2e` → `@regression`
      - No label → `@regression`, and mention in the Jira note that no label was set
 8. Run it with `ENV=staging npx playwright test <file> --repeat-each=3`.
+   If you changed shared code (page-objects/, components/, utils/, fixtures), find the specs that use each changed method, locator or fixture, directly or through another method that calls it (search `tests/` for the names), run only those specs with `ENV=staging`, and list them with their results in your summary. Don't run the whole suite for this.
 9. If it passes: append "✅ Automation test: <file path>" to the task description, then move the task to "Done".
 
 Test rules:
