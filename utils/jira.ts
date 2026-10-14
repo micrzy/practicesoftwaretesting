@@ -231,6 +231,14 @@ export async function getTaskDescription(issueKey: string): Promise<string> {
   return description ? cleanText(adfToText(description)) : "";
 }
 
+export async function getTaskLabels(issueKey: string): Promise<string[]> {
+  const issue = await jiraRequest<JiraIssue>(
+    "GET",
+    `/rest/api/3/issue/${encodeURIComponent(issueKey)}?fields=labels`,
+  );
+  return issue.fields.labels ?? [];
+}
+
 export async function moveTask(issueKey: string, transitionName: string): Promise<void> {
   const path = `/rest/api/3/issue/${encodeURIComponent(issueKey)}/transitions`;
   const { transitions } = await jiraRequest<{ transitions: JiraTransition[] }>("GET", path);
@@ -295,9 +303,12 @@ async function main(args: string[]): Promise<void> {
       }
       return;
     }
-    case "get":
+    case "get": {
+      const labels = await getTaskLabels(key);
+      console.log(`Labels: ${labels.length ? labels.join(", ") : "(none)"}\n`);
       console.log(await getTaskDescription(key));
       return;
+    }
     case "move":
       if (!text) throw new Error(USAGE);
       await moveTask(key, text);

@@ -8,10 +8,12 @@ export class NavBarComponent{
 
      readonly categoriesToggle:Locator;
      readonly categoriesMenu:Locator;
+     readonly contactLink:Locator;
 
     constructor(readonly page:Page){
        this.categoriesToggle = this.page.locator('[data-test="nav-categories"]')
        this.categoriesMenu = this.page.locator('[data-test="nav-categories"] + .dropdown-menu')
+       this.contactLink = this.page.locator('[data-test="nav-contact"]')
     }
 
      async navigate(){
