@@ -25,11 +25,21 @@ E2E and API test automation for the [Practice Software Testing](https://practice
 
 Say `pick up SCRUM-X` in Claude Code to automate a Jira task:
 
-1. Read the task's steps and acceptance criteria from Jira (`utils/jira.ts`)
-2. Check whether existing tests already cover it
+1. Read the task's steps, acceptance criteria and labels from Jira (`utils/jira.ts`)
+2. Check coverage by page or feature: extend an existing spec when one already
+   tests that area, instead of creating duplicates
 3. Confirm real selectors on the live site with Playwright MCP
 4. Write or extend a test using the existing page objects and fixtures
-5. Run it 3 times; on success, link the test in Jira and move the task to Done
+5. Tag it from the Jira labels (e.g. `smoke` → `@smoke @regression`) plus the Jira key
+6. Run it 3 times; if shared code changed, also re-run only the specs that call the changed functions
+7. On success, link the test in Jira and move the task to Done
+
+**Guardrails** (`CLAUDE.md`): never remove or weaken assertions, no hard waits,
+assert only the acceptance criteria, stop after 3 failed fix attempts and
+report in Jira instead of moving to Done.
+
+Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability:
+`npx playwright test --grep @SCRUM-2`.
 
 **Guardrails** (`CLAUDE.md`): never remove or weaken assertions, no hard waits,
 stop after 3 failed fix attempts and report in Jira instead of moving to Done.
