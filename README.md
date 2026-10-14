@@ -41,11 +41,6 @@ report in Jira instead of moving to Done.
 Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability:
 `npx playwright test --grep @SCRUM-2`.
 
-**Guardrails** (`CLAUDE.md`): never remove or weaken assertions, no hard waits,
-stop after 3 failed fix attempts and report in Jira instead of moving to Done.
-
-Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability.
-
 ## 🌍 Environments
 | ENV | Target | Use |
 |---|---|---|
