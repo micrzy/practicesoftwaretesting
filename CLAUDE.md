@@ -98,6 +98,8 @@ Steps:
 3. Check existing coverage in `tests/` first. Coverage is by page or feature,not only by assertions:
    - A spec already tests the same page or feature: extend that spec (add assertions, or add a test to its describe).
    - No spec for that page or feature: write a new spec.
+   - If the task names a spec in "Existing coverage", follow it.
+   - If existing specs cover part of the criteria and the task doesn't say what to do,list the overlap and ask me before writing any code.
 4. Inspect https://practicesoftwaretesting.com with Playwright MCP to confirm real selectors before writing code.
 5. Write the test following the Architecture section above: import from `page-objects/fixtures.ts`, reuse or add page objects via `POManager`, use API-driven setup where possible, and use `${API_URL}`.
 6. Wrap each Jira step in `test.step()`. Every acceptance criterion must be an `expect()` assertion.

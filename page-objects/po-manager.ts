@@ -6,6 +6,8 @@ import { NavBarComponent } from "../components/navbar-component"
 import { ContactPage } from "./contact-page"
 import { UserProfile } from "./user-profile.page"
 import { CategoryPage } from "./category-page"
+import { ProductPage } from "./product-page"
+import { CartPage } from "./cart-page"
 
 export class POManager {
   readonly page: Page;
@@ -16,6 +18,8 @@ export class POManager {
   readonly contactPage: ContactPage;
   readonly userProfile: UserProfile
   readonly categoryPage: CategoryPage
+  readonly productPage: ProductPage
+  readonly cartPage: CartPage
 
   constructor(page: Page) {
     this.page = page;
@@ -26,5 +30,7 @@ export class POManager {
     this.contactPage = new ContactPage(page)
     this.userProfile = new UserProfile(page)
     this.categoryPage = new CategoryPage(page)
+    this.productPage = new ProductPage(page)
+    this.cartPage = new CartPage(page)
   }
 }
