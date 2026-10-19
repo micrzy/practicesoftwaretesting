@@ -10,23 +10,14 @@ test.describe("Test API Mock @regression", () => {
     await increaseBtn.click();
     await page.locator('[data-test="add-to-cart"]').click();
     await page.locator('[data-test="nav-cart"]').click();
-    await page.locator('[data-test="proceed-1"]').click();
+    await poManager.cartPage.proceedToCheckoutButton.click();
 
     await poManager.authPage.loginViaEmailAndPassword(
       process.env.TEST_EMAIL!,
       process.env.TEST_PASSWORD!,
     );
 
-    await page.locator('[data-test="proceed-2"]').click();
-
-    await expect(page.locator('[data-test="street"]')).not.toHaveValue("");
-    await page.locator('[data-test="postal_code"]').fill("1234");
-    await page.locator('[data-test="house_number"]').fill("12");
-    await page.locator('[data-test="proceed-3"]').click();
-
-    await page
-      .locator('[data-test="payment-method"]')
-      .selectOption({ label: "Cash on Delivery" });
+    await poManager.checkoutPage.goToPaymentWith("Cash on Delivery");
   });
   test("before checkout, intercept API and mock 500 Internal Server Error", async ({
     page,
