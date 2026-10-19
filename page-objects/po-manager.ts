@@ -8,6 +8,7 @@ import { UserProfile } from "./user-profile.page"
 import { CategoryPage } from "./category-page"
 import { ProductPage } from "./product-page"
 import { CartPage } from "./cart-page"
+import { CheckoutPage } from "./checkout-page"
 
 export class POManager {
   readonly page: Page;
@@ -20,6 +21,7 @@ export class POManager {
   readonly categoryPage: CategoryPage
   readonly productPage: ProductPage
   readonly cartPage: CartPage
+  readonly checkoutPage: CheckoutPage
 
   constructor(page: Page) {
     this.page = page;
@@ -32,5 +34,6 @@ export class POManager {
     this.categoryPage = new CategoryPage(page)
     this.productPage = new ProductPage(page)
     this.cartPage = new CartPage(page)
+    this.checkoutPage = new CheckoutPage(page)
   }
 }
