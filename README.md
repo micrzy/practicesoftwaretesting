@@ -55,6 +55,37 @@ Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability:
 | Push to `main` | local | `@smoke` |
 | Manual (workflow_dispatch) | choose | choose |
 
+## 📁 Project Structure
+
+```
+.
+├── tests/
+│   ├── api/                 # API tests: contract (Zod), negative 404/422, auth
+│   │   └── schemas/         # Zod schemas for products, brands, categories, errors
+│   ├── ui/                  # UI end-to-end tests
+│   │   ├── auth.setup.ts    # Logs in via API once, saves the session for *.logged-in.spec.ts
+│   │   └── fixtures/        # Files used by tests (upload file, expected invoice PDF)
+│   └── mock/                # Network mocking with page.route (500 errors, out of stock)
+├── page-objects/            # Page Object Model + POManager + custom fixtures (fixtures.ts)
+├── components/              # Shared UI components (nav bar, filter sidebar)
+├── utils/
+│   ├── api-helpers.ts       # API-driven test data setup (e.g. create a cart)
+│   ├── env.ts               # Environment variables (API_URL)
+│   └── jira.ts              # Jira CLI used by the QA agent
+├── test-data/               # JSON for data-driven tests (search, i18n labels)
+├── perf/                    # k6 load and stress scripts + RESULTS.md
+├── ci/                      # Self-hosted app under test (Docker) + start script
+├── .github/workflows/       # Playwright CI and k6 performance workflows
+├── .claude/                 # Claude Code hooks (block access to .env)
+├── CLAUDE.md                # Jira QA agent workflow and guardrails
+├── playwright.config.ts     # Projects: setup, guest, logged-in
+├── Dockerfile               # Image CI runs the tests in
+└── .env.<env>               # BASE_URL / API_URL per environment (local, dev, staging)
+```
+
+**Naming conventions**: `*.logged-in.spec.ts` runs authenticated, everything else runs as a guest.
+Suites are selected by tags in the `describe` title: `@sanity`, `@smoke`, `@regression`.
+
 ## 🧰 Getting Started
 
 ### Prerequisites
