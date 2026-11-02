@@ -1,5 +1,6 @@
 /// <reference types="node" />
 import dotenv from "dotenv";
+import { readFileSync } from "fs";
 
 dotenv.config({ quiet: true });
 
@@ -276,17 +277,36 @@ export async function updateDescription(issueKey: string, appendText: string): P
   console.log(`${issueKey}: description updated`);
 }
 
+export async function addComment(issueKey: string, commentText: string): Promise<void> {
+  if (!commentText.trim()) {
+    throw new Error("Comment text must not be empty");
+  }
+
+  const body: AdfDocument = { type: "doc", version: 1, content: [textToParagraph(commentText)] };
+  await jiraRequest<void>("POST", `/rest/api/3/issue/${encodeURIComponent(issueKey)}/comment`, { body });
+  console.log(`${issueKey}: comment added`);
+}
+
 // ---------- CLI ----------
 
 const USAGE = `Usage:
   npx tsx utils/jira.ts todo <PROJECT_KEY>
   npx tsx utils/jira.ts get <ISSUE_KEY>
   npx tsx utils/jira.ts move <ISSUE_KEY> "<Transition name>"
-  npx tsx utils/jira.ts append <ISSUE_KEY> "<Text>"`;
+  npx tsx utils/jira.ts append <ISSUE_KEY> "<Text>" | --file <path>
+  npx tsx utils/jira.ts comment <ISSUE_KEY> "<Text>" | --file <path>`;
+
+// Inline text through npx.cmd on Windows is cut at the first newline and loses double quotes,
+// so multi-line text is read from a file instead
+function readText(rest: string[]): string {
+  if (rest[0] !== "--file") return rest.join(" ");
+  if (!rest[1]) throw new Error(USAGE);
+  return readFileSync(rest[1], "utf8").replace(/^\uFEFF/, "").trimEnd();
+}
 
 async function main(args: string[]): Promise<void> {
   const [command, key, ...rest] = args;
-  const text = rest.join(" ");
+  const text = readText(rest);
 
   if (!command || !key) throw new Error(USAGE);
 
@@ -316,6 +336,10 @@ async function main(args: string[]): Promise<void> {
     case "append":
       if (!text) throw new Error(USAGE);
       await updateDescription(key, text);
+      return;
+    case "comment":
+      if (!text) throw new Error(USAGE);
+      await addComment(key, text);
       return;
     default:
       throw new Error(`Unknown command "${command}"\n${USAGE}`);
