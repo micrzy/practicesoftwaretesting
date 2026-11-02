@@ -90,10 +90,16 @@ Jira CLI (`utils/jira.ts`, project key `SCRUM`):
 npx tsx utils/jira.ts get SCRUM-X
 npx tsx utils/jira.ts move SCRUM-X "In Progress"
 npx tsx utils/jira.ts append SCRUM-X "<text>"
+npx tsx utils/jira.ts comment SCRUM-X "<text>"
+npx tsx utils/jira.ts comment SCRUM-X --file <path>
 ```
+For text with more than one line or with double quotes, write it to a file in the system temp directory and pass it with `--file` (works for `append` and `comment`), then delete the file. Inline text on Windows keeps only the first line and drops double quotes.
 
 Steps:
 1. Fetch the task and read its test steps and acceptance criteria.
+1a. Review the acceptance criteria before anything else. Each criterion must name an observable result: a URL, visible text, a value, a status code or an element state.
+   - If a criterion is vague (e.g. "page loads", "works correctly"), can't be tested, or contradicts the test steps: post one Jira comment that lists each problem criterion, what is wrong with it, and a suggested testable rewrite. Leave the task in "To Do" and stop. Don't guess what it means and don't write any code.
+   - If every criterion passes, continue with step 2.
 2. Move the task to "In Progress".
 3. Check existing coverage in `tests/` first. Coverage is by page or feature,not only by assertions:
    - A spec already tests the same page or feature: extend that spec (add assertions, or add a test to its describe).

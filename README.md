@@ -19,20 +19,23 @@ E2E and API test automation for the [Practice Software Testing](https://practice
 * **Performance testing with k6**: load and stress scenarios with p95 and error-rate thresholds, runnable on demand in GitHub Actions
 * **API contract testing**: Zod schema validation and negative tests (404, 422)
 * **API-driven test setup**: create test data via API (e.g. cart) instead of clicking through the UI
-* **AI-assisted test automation**: a Claude Code agent picks up Jira tasks, checks existing coverage, inspects the live site with Playwright MCP, writes tests using the existing page objects and fixtures, and updates Jira, with guardrails against weakening assertions
+* **AI-assisted test automation**: a Claude Code agent picks up Jira tasks, reviews their acceptance criteria, checks existing coverage, inspects the live site with Playwright MCP, writes tests using the existing page objects and fixtures, and updates Jira, with guardrails against weakening assertions
 
 ## 🤖 Jira QA Agent
 
 Say `pick up SCRUM-X` in Claude Code to automate a Jira task:
 
 1. Read the task's steps, acceptance criteria and labels from Jira (`utils/jira.ts`)
-2. Check coverage by page or feature: extend an existing spec when one already
+2. Review the acceptance criteria: each must name an observable result (URL, visible text,
+   value, status code or element state). If one is vague or untestable, comment in Jira with
+   a suggested rewrite, leave the task in To Do and stop, without guessing
+3. Check coverage by page or feature: extend an existing spec when one already
    tests that area, instead of creating duplicates
-3. Confirm real selectors on the live site with Playwright MCP
-4. Write or extend a test using the existing page objects and fixtures
-5. Tag it from the Jira labels (e.g. `smoke` → `@smoke @regression`) plus the Jira key
-6. Run it 3 times; if shared code changed, also re-run only the specs that call the changed functions
-7. On success, link the test in Jira and move the task to Done
+4. Confirm real selectors on the live site with Playwright MCP
+5. Write or extend a test using the existing page objects and fixtures
+6. Tag it from the Jira labels (e.g. `smoke` → `@smoke @regression`) plus the Jira key
+7. Run it 3 times; if shared code changed, also re-run only the specs that call the changed functions
+8. On success, link the test in Jira and move the task to Done
 
 **Guardrails** (`CLAUDE.md`): never remove or weaken assertions, no hard waits,
 assert only the acceptance criteria, stop after 3 failed fix attempts and
