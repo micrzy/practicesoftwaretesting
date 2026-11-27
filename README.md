@@ -19,7 +19,8 @@ E2E and API test automation for the [Practice Software Testing](https://practice
 * **Performance testing with k6**: load and stress scenarios with p95 and error-rate thresholds, runnable on demand in GitHub Actions
 * **API contract testing**: Zod schema validation and negative tests (404, 422)
 * **API-driven test setup**: create test data via API (e.g. cart) instead of clicking through the UI
-* **AI-assisted test automation**: a Claude Code agent picks up Jira tasks, reviews their acceptance criteria, checks existing coverage, inspects the live site with Playwright MCP, writes tests using the existing page objects and fixtures, and updates Jira, with guardrails against weakening assertions
+* **Authorization testing**: with two customer accounts, checks that one customer cannot read, download or list another customer's invoices (IDOR)
+* **AI-assisted test automation**: a Claude Code agent picks up Jira tasks, reviews their acceptance criteria, suggests negative and boundary cases, checks existing coverage, inspects the live site with Playwright MCP, writes tests using the existing page objects and fixtures, and updates Jira, with guardrails against weakening assertions. It also triages failing tests and repairs only the ones that are test problems
 
 ## 🤖 Jira QA Agent
 
@@ -69,7 +70,7 @@ Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability:
 ```
 .
 ├── tests/
-│   ├── api/                 # API tests: contract (Zod), negative 404/422, auth
+│   ├── api/                 # API tests: contract (Zod), negative 404/422, auth, access control
 │   │   └── schemas/         # Zod schemas for products, brands, categories, errors
 │   ├── ui/                  # UI end-to-end tests
 │   │   ├── auth.setup.ts    # Logs in via API once, saves the session for *.logged-in.spec.ts
@@ -119,4 +120,4 @@ ENV=staging npx playwright test --grep @smoke
 npx playwright show-report
 ```
 
-Credentials are read from a local `.env` file (not committed) or from GitHub Secrets in CI.
+Credentials for two customer accounts (`TEST_EMAIL`/`TEST_PASSWORD` and `TEST_EMAIL1`/`TEST_PASSWORD1`) are read from a local `.env` file (not committed) or from GitHub Secrets in CI.
