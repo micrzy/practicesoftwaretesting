@@ -63,11 +63,15 @@ jobs:
       env:
         TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
         TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        TEST_EMAIL1: ${{ secrets.TEST_EMAIL1 }}
+        TEST_PASSWORD1: ${{ secrets.TEST_PASSWORD1 }}
       run: |
         docker run --rm --network host \
           -e ENV="${ENV}" \
           -e TEST_EMAIL="${TEST_EMAIL}" \
           -e TEST_PASSWORD="${TEST_PASSWORD}" \
+          -e TEST_EMAIL1="${TEST_EMAIL1}" \
+          -e TEST_PASSWORD1="${TEST_PASSWORD1}" \
           -v ${{ github.workspace }}/playwright-report:/practiceapp/playwright-report \
           my-practice-app npx playwright test --grep "${GREP_TAG}"
 
