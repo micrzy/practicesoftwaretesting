@@ -7,7 +7,7 @@ test.describe("Cart Quantity Operation @smoke @regression", () => {
   }) => {
     await poManager.homePage.selectProduct();
     await page.locator('[data-test="add-to-cart"]').click();
-    await page.locator('[data-test="nav-cart"]').click();
+    await poManager.navBar.cartLink.click();
 
     const rawPrice = await page
       .locator('[data-test="product-price"]')

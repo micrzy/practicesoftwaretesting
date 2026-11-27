@@ -31,15 +31,21 @@ Say `pick up SCRUM-X` in Claude Code to automate a Jira task:
    a suggested rewrite, leave the task in To Do and stop, without guessing
 3. Check coverage by page or feature: extend an existing spec when one already
    tests that area, instead of creating duplicates
-4. Confirm real selectors on the live site with Playwright MCP
-5. Write or extend a test using the existing page objects and fixtures
-6. Tag it from the Jira labels (e.g. `smoke` → `@smoke @regression`) plus the Jira key
-7. Run it 3 times; if shared code changed, also re-run only the specs that call the changed functions
-8. On success, link the test in Jira and move the task to Done
+4. Suggest negative and boundary cases the criteria imply; the ones I approve are appended
+   to the task as acceptance criteria and automated too, the rest are left as a Jira comment
+5. Confirm real selectors on the live site with Playwright MCP
+6. Write or extend a test using the existing page objects and fixtures
+7. Tag it from the Jira labels (e.g. `smoke` → `@smoke @regression`) plus the Jira key
+8. Run it 3 times; if shared code changed, also re-run only the specs that call the changed functions
+9. On success, link the test in Jira and move the task to Done
 
 **Guardrails** (`CLAUDE.md`): never remove or weaken assertions, no hard waits,
 assert only the acceptance criteria, stop after 3 failed fix attempts and
 report in Jira instead of moving to Done.
+
+**Test maintenance**: say `fix failing tests in <spec>` and the agent classifies each failure
+as a test problem, product bug or environment problem. It repairs only test problems (e.g. an
+outdated locator in a page object) and reports the rest; it never changes expected values.
 
 Tests are tagged with their Jira key (e.g. `@SCRUM-2`) for traceability:
 `npx playwright test --grep @SCRUM-2`.

@@ -42,3 +42,20 @@ export async function createCartWithProduct(
   expect(updateCartResponse.status()).toBe(200);
   return cartId;
 }
+
+/**
+ * Log in through the API and return the bearer token
+ */
+export async function loginViaApi(
+  request: APIRequestContext,
+  email: string,
+  password: string,
+): Promise<string> {
+  const loginResponse = await request.post(`${API_URL}/users/login`, {
+    data: { email, password },
+  });
+  expect(loginResponse.status()).toBe(200);
+
+  const loginResponseBody = await loginResponse.json();
+  return loginResponseBody.access_token;
+}

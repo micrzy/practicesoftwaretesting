@@ -106,6 +106,10 @@ Steps:
    - No spec for that page or feature: write a new spec.
    - If the task names a spec in "Existing coverage", follow it.
    - If existing specs cover part of the criteria and the task doesn't say what to do,list the overlap and ask me before writing any code.
+3a. Design extra test cases before writing any code. From the acceptance criteria, list the negative and boundary cases they imply but don't state (e.g. adding the same product to favorites twice), leaving out cases existing specs already cover. Show me the list in the chat and ask which ones to add.
+   - Cases I pick: append them to the task description under "Additional acceptance criteria (approved):". From then on they count as acceptance criteria, so automate them together with the original ones.
+   - Cases I don't pick: post them as one Jira comment under "Suggested test cases (not automated):".
+   - If no useful extra case comes up, say so and continue.
 4. Inspect https://practicesoftwaretesting.com with Playwright MCP to confirm real selectors before writing code.
 5. Write the test following the Architecture section above: import from `page-objects/fixtures.ts`, reuse or add page objects via `POManager`, use API-driven setup where possible, and use `${API_URL}`.
 6. Wrap each Jira step in `test.step()`. Every acceptance criterion must be an `expect()` assertion.
@@ -120,6 +124,21 @@ Steps:
 8. Run it with `ENV=staging npx playwright test <file> --repeat-each=3`.
    If you changed shared code (page-objects/, components/, utils/, fixtures), find the specs that use each changed method, locator or fixture, directly or through another method that calls it (search `tests/` for the names), run only those specs with `ENV=staging`, and list them with their results in your summary. Don't run the whole suite for this.
 9. If it passes: append "✅ Automation test: <file path>" to the task description, then move the task to "Done".
+
+Fixing failing tests:
+When I say "fix failing tests in <spec>", run this flow. The test rules and guardrails below still apply.
+1. Run the spec with `ENV=staging npx playwright test <spec>` and collect each failure's error and trace.
+2. Classify each failure before changing anything:
+   - Test problem (an element isn't found, a locator is outdated, a wait is wrong): inspect the live page with Playwright MCP, then fix the locator or wait:
+     - Locator in a page object or component: fix it there.
+     - Locator written inline in the spec: first check whether a page object or component already has a locator for that element. If one does, make the spec use it, and fix it there if it is outdated too. If none does, fix the inline locator in the spec.
+     - Never change an assertion's expected value.
+   - Product bug (the page works, but the result differs from what the test expects): don't change any code. Report it.
+   - Environment problem (5xx responses, network errors, the site is down): don't change any code. Re-run once to confirm, then report it.
+3. After a fix, re-run the spec with `--repeat-each=3`, then run the other specs that use the changed locator or method, as in step 8 above.
+4. If the failing test or its describe has a `@SCRUM-X` tag, comment on that task: which locator changed, from what to what, and why.
+5. Finish with a summary that lists each failure, its class and what you did. If a test problem still fails after 3 fix attempts, stop and report it.
+6. In the summary and in Jira comments, state only causes the evidence shows, e.g. "the page now has `data-test="postal_code"`; the test uses `postalcode`". Don't guess why it changed.
 
 Test rules:
 - Prefer `data-test` locators; otherwise `getByRole`, `getByLabel`, `getByPlaceholder`, `getByText`. Never XPath.
